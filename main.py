@@ -1,5 +1,5 @@
 import argparse
-import datetime
+from datetime import datetime
 import os
 from dataclasses import dataclass
 import json
@@ -9,13 +9,14 @@ OUTRO_PATH = '/media/larm_data/samba/data/meteo_data'
 
 @dataclass(slots=True, frozen=True)
 class Weather:
+    dates: list[datetime]
     
 
 def get_lastdate(path: str) -> datetime:
     # Получить дату последних имеющихся данных.
     with open(os.path.join(INTRO_PATH, 'lastdate.txt'), 'r') as lastdate_file:
         lastdate = lastdate_file.readline()
-        date = datetime.datetime.fromisoformat(lastdate)
+        date = datetime.fromisoformat(lastdate)
     return date
 
 def generate_path_to_intro_file(date: datetime, path: str) -> str:
