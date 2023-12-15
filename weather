@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+__project_name__ = 'Weather'
+__program_version__ = 'v.0.1'
+
+from argparser import get_args
+from datetime import date
+from pathlib import Path
+from typing import Sequence
+
+from config import PATH_TO_WEATHER, KRM_LAST_DATE
+from parse_data import parse_data
+from read_data import read_data
+
+
+def get_krm_data(path: Path, lastdate: str, searched_date: date=None, transpose: bool=False) -> Sequence:
+    data = read_data(path, lastdate, searched_date)
+    result = parse_data(data, transpose=transpose)
+    return result
+
+def main():
+    args = get_args()
+
+    match args.location:
+        case 'krm':
+            path = Path(PATH_TO_WEATHER)
+            data = get_krm_data(path, KRM_LAST_DATE, searched_date=args.date, transpose=True)
+            return data
+        case _:
+            print('nothiung')
+    
+    return args
+
+if __name__ == '__main__':
+
+    print(main())
